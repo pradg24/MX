@@ -1,0 +1,17 @@
+package com.yourcompany.iso20022;
+
+import com.prowidesoftware.swift.model.mx.dic.BranchAndFinancialInstitutionIdentification5;
+import com.prowidesoftware.swift.model.mx.dic.FinancialInstitutionIdentification8;
+
+public class AgentBuilder {
+
+    public static BranchAndFinancialInstitutionIdentification5 buildDebtorAgent(String debtorAgent) {
+        return new BranchAndFinancialInstitutionIdentification5()
+            .setFinInstnId(new FinancialInstitutionIdentification8().setBICFI(debtorAgent));
+    }
+
+    public static BranchAndFinancialInstitutionIdentification5 buildCreditorAgent(String creditorAgent) {
+        return new BranchAndFinancialInstitutionIdentification5()
+            .setFinInstnId(new FinancialInstitutionIdentification8().setBICFI(creditorAgent));
+    }
+}
