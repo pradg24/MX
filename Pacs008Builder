@@ -6,24 +6,129 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Pacs008Builder implements PacsBuilder {
-    // All the existing fields and methods remain unchanged
-    
+    private String msgId;
+    private Date creationDateTime;
+    private String pmtInfId;
+    private String settlementMethod;
+    private String debtorName;
+    private String debtorAccount;
+    private String debtorAgent;
+    private String creditorName;
+    private String creditorAccount;
+    private String creditorAgent;
+    private BigDecimal amount;
+    private String currency;
+    private String transactionId;
+    private Date interbankSettlementDate;
+    private String remittanceInformation;
+    private String chargeBearer;
+    private String instrForDbtrAgt;
+
+    // Public constructor
+    public Pacs008Builder() {}
+
+    // Fluent interface for setting fields
+    public Pacs008Builder setMsgId(String msgId) {
+        this.msgId = msgId;
+        return this;
+    }
+
+    public Pacs008Builder setCreationDateTime(Date creationDateTime) {
+        this.creationDateTime = creationDateTime;
+        return this;
+    }
+
+    public Pacs008Builder setPmtInfId(String pmtInfId) {
+        this.pmtInfId = pmtInfId;
+        return this;
+    }
+
+    public Pacs008Builder setSettlementMethod(String settlementMethod) {
+        this.settlementMethod = settlementMethod;
+        return this;
+    }
+
+    public Pacs008Builder setDebtorName(String debtorName) {
+        this.debtorName = debtorName;
+        return this;
+    }
+
+    public Pacs008Builder setDebtorAccount(String debtorAccount) {
+        this.debtorAccount = debtorAccount;
+        return this;
+    }
+
+    public Pacs008Builder setDebtorAgent(String debtorAgent) {
+        this.debtorAgent = debtorAgent;
+        return this;
+    }
+
+    public Pacs008Builder setCreditorName(String creditorName) {
+        this.creditorName = creditorName;
+        return this;
+    }
+
+    public Pacs008Builder setCreditorAccount(String creditorAccount) {
+        this.creditorAccount = creditorAccount;
+        return this;
+    }
+
+    public Pacs008Builder setCreditorAgent(String creditorAgent) {
+        this.creditorAgent = creditorAgent;
+        return this;
+    }
+
+    public Pacs008Builder setAmount(BigDecimal amount) {
+        this.amount = amount;
+        return this;
+    }
+
+    public Pacs008Builder setCurrency(String currency) {
+        this.currency = currency;
+        return this;
+    }
+
+    public Pacs008Builder setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+        return this;
+    }
+
+    public Pacs008Builder setInterbankSettlementDate(Date interbankSettlementDate) {
+        this.interbankSettlementDate = interbankSettlementDate;
+        return this;
+    }
+
+    public Pacs008Builder setRemittanceInformation(String remittanceInformation) {
+        this.remittanceInformation = remittanceInformation;
+        return this;
+    }
+
+    public Pacs008Builder setChargeBearer(String chargeBearer) {
+        this.chargeBearer = chargeBearer;
+        return this;
+    }
+
+    public Pacs008Builder setInstrForDbtrAgt(String instrForDbtrAgt) {
+        this.instrForDbtrAgt = instrForDbtrAgt;
+        return this;
+    }
+
     @Override
     public Document build() {
         Document doc = new Document();
         FIToFICustomerCreditTransferV08 msg = new FIToFICustomerCreditTransferV08();
 
-        msg.setGrpHdr(PacsComponentBuilder.buildGroupHeader(this.msgId, this.creationDateTime));
-        PaymentInstruction22 paymentInfo = PacsComponentBuilder.buildPaymentInstruction(this.pmtInfId, this.settlementMethod, this.amount, 
-                                                                                         this.currency, this.chargeBearer, this.instrForDbtrAgt, 
-                                                                                         this.transactionId, this.interbankSettlementDate);
-        paymentInfo.setDbtr(PacsComponentBuilder.buildDebtor(this.debtorName));
-        paymentInfo.setDbtrAcct(PacsComponentBuilder.buildDebtorAccount(this.debtorAccount));
-        paymentInfo.setDbtrAgt(PacsComponentBuilder.buildDebtorAgent(this.debtorAgent));
-        paymentInfo.setCdtr(PacsComponentBuilder.buildCreditor(this.creditorName));
-        paymentInfo.setCdtrAcct(PacsComponentBuilder.buildCreditorAccount(this.creditorAccount));
-        paymentInfo.setCdtrAgt(PacsComponentBuilder.buildCreditorAgent(this.creditorAgent));
-        paymentInfo.setRmtInf(PacsComponentBuilder.buildRemittanceInformation(this.remittanceInformation));
+        msg.setGrpHdr(GroupHeaderBuilder.buildGroupHeader(this.msgId, this.creationDateTime));
+        PaymentInstruction22 paymentInfo = PaymentInstructionBuilder.buildPaymentInstruction(this.pmtInfId, this.settlementMethod, this.amount, 
+                                                                                              this.currency, this.chargeBearer, this.instrForDbtrAgt, 
+                                                                                              this.transactionId, this.interbankSettlementDate);
+        paymentInfo.setDbtr(PartyBuilder.buildDebtor(this.debtorName));
+        paymentInfo.setDbtrAcct(AccountBuilder.buildDebtorAccount(this.debtorAccount));
+        paymentInfo.setDbtrAgt(AgentBuilder.buildDebtorAgent(this.debtorAgent));
+        paymentInfo.setCdtr(PartyBuilder.buildCreditor(this.creditorName));
+        paymentInfo.setCdtrAcct(AccountBuilder.buildCreditorAccount(this.creditorAccount));
+        paymentInfo.setCdtrAgt(AgentBuilder.buildCreditorAgent(this.creditorAgent));
+        paymentInfo.setRmtInf(RemittanceInformationBuilder.buildRemittanceInformation(this.remittanceInformation));
 
         msg.getPmtInf().add(paymentInfo);
         doc.setFIToFICstmrCdtTrf(msg);
