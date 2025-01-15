@@ -1,0 +1,7 @@
+package com.yourcompany.iso20022;
+
+import com.prowidesoftware.swift.model.mx.*;
+
+public interface PacsBuilder {
+    Document build();
+}
