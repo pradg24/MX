@@ -1,0 +1,24 @@
+package com.yourcompany.iso20022;
+
+import com.prowidesoftware.swift.model.mx.*;
+import java.util.Date;
+
+public class Main {
+
+    public static void main(String[] args) {
+        // Create a PacsBuilder using the factory
+        PacsBuilder builder = PacsBuilderFactory.createPacsBuilder("pacs.008");
+
+        // Set the desired fields
+        Document pacs008 = ((Pacs008Builder) builder)
+            .setChargeBearer("SHAR")
+            .setCreditorAccount("GB29NWBK60161331926819")
+            .setCreationDateTime(new Date())
+            .setInstrForDbtrAgt("Instruction for Debtor Agent")
+            .build();
+
+        // Serialize the message to XML for display
+        String xml = MxWriteConfiguration.write(pacs008);
+        System.out.println(xml);
+    }
+}
