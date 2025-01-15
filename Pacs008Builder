@@ -1,0 +1,33 @@
+package com.yourcompany.iso20022;
+
+import com.prowidesoftware.swift.model.mx.*;
+import com.prowidesoftware.swift.model.mx.dic.*;
+import java.math.BigDecimal;
+import java.util.Date;
+
+public class Pacs008Builder implements PacsBuilder {
+    // All the existing fields and methods remain unchanged
+    
+    @Override
+    public Document build() {
+        Document doc = new Document();
+        FIToFICustomerCreditTransferV08 msg = new FIToFICustomerCreditTransferV08();
+
+        msg.setGrpHdr(PacsComponentBuilder.buildGroupHeader(this.msgId, this.creationDateTime));
+        PaymentInstruction22 paymentInfo = PacsComponentBuilder.buildPaymentInstruction(this.pmtInfId, this.settlementMethod, this.amount, 
+                                                                                         this.currency, this.chargeBearer, this.instrForDbtrAgt, 
+                                                                                         this.transactionId, this.interbankSettlementDate);
+        paymentInfo.setDbtr(PacsComponentBuilder.buildDebtor(this.debtorName));
+        paymentInfo.setDbtrAcct(PacsComponentBuilder.buildDebtorAccount(this.debtorAccount));
+        paymentInfo.setDbtrAgt(PacsComponentBuilder.buildDebtorAgent(this.debtorAgent));
+        paymentInfo.setCdtr(PacsComponentBuilder.buildCreditor(this.creditorName));
+        paymentInfo.setCdtrAcct(PacsComponentBuilder.buildCreditorAccount(this.creditorAccount));
+        paymentInfo.setCdtrAgt(PacsComponentBuilder.buildCreditorAgent(this.creditorAgent));
+        paymentInfo.setRmtInf(PacsComponentBuilder.buildRemittanceInformation(this.remittanceInformation));
+
+        msg.getPmtInf().add(paymentInfo);
+        doc.setFIToFICstmrCdtTrf(msg);
+
+        return doc;
+    }
+}
