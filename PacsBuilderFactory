@@ -1,0 +1,13 @@
+package com.yourcompany.iso20022;
+
+public class PacsBuilderFactory {
+    public static PacsBuilder createPacsBuilder(String pacsType) {
+        switch (pacsType) {
+            case "pacs.008":
+                return new Pacs008Builder();
+            // Add other cases for different pacs types as needed
+            default:
+                throw new IllegalArgumentException("Unsupported pacs type: " + pacsType);
+        }
+    }
+}
