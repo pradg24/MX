@@ -1,0 +1,12 @@
+package com.yourcompany.iso20022;
+
+import com.prowidesoftware.swift.model.mx.dic.RemittanceInformation11;
+
+public class RemittanceInformationBuilder {
+
+    public static RemittanceInformation11 buildRemittanceInformation(String remittanceInformation) {
+        RemittanceInformation11 rmtInf = new RemittanceInformation11();
+        rmtInf.getUstrd().add(remittanceInformation);
+        return rmtInf;
+    }
+}
