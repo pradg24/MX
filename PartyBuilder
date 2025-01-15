@@ -1,0 +1,18 @@
+package com.yourcompany.iso20022;
+
+import com.prowidesoftware.swift.model.mx.dic.PartyIdentification125;
+
+public class PartyBuilder {
+
+    public static PartyIdentification125 buildDebtor(String debtorName) {
+        PartyIdentification125 debtor = new PartyIdentification125();
+        debtor.setNm(debtorName);
+        return debtor;
+    }
+
+    public static PartyIdentification125 buildCreditor(String creditorName) {
+        PartyIdentification125 creditor = new PartyIdentification125();
+        creditor.setNm(creditorName);
+        return creditor;
+    }
+}
