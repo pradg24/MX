@@ -1,0 +1,31 @@
+package com.yourcompany.iso20022;
+
+import com.prowidesoftware.swift.model.mx.dic.ActiveOrHistoricCurrencyAndAmount;
+import com.prowidesoftware.swift.model.mx.dic.ChargeBearerType1Code;
+import com.prowidesoftware.swift.model.mx.dic.PaymentIdentification3;
+import com.prowidesoftware.swift.model.mx.dic.PaymentInstruction22;
+import java.math.BigDecimal;
+import java.util.Date;
+
+public class PaymentInstructionBuilder {
+
+    public static PaymentInstruction22 buildPaymentInstruction(String pmtInfId, String settlementMethod, BigDecimal amount, 
+                                                                String currency, String chargeBearer, String instrForDbtrAgt, 
+                                                                String transactionId, Date interbankSettlementDate) {
+        PaymentInstruction22 paymentInfo = new PaymentInstruction22();
+        paymentInfo.setPmtInfId(pmtInfId);
+        paymentInfo.setSttlmMtd(settlementMethod);
+        paymentInfo.setInstdAmt(new ActiveOrHistoricCurrencyAndAmount());
+        paymentInfo.getInstdAmt().setCcy(currency);
+        paymentInfo.getInstdAmt().setValue(amount);
+        paymentInfo.setChrgBr(ChargeBearerType1Code.valueOf(chargeBearer));
+        paymentInfo.setInstrForDbtrAgt(instrForDbtrAgt);
+        paymentInfo.setIntrBkSttlmDt(interbankSettlementDate);
+
+        PaymentIdentification3 paymentId = new PaymentIdentification3();
+        paymentId.setInstrId(transactionId);
+        paymentInfo.setPmtId(paymentId);
+
+        return paymentInfo;
+    }
+}
