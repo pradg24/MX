@@ -1,0 +1,19 @@
+package com.yourcompany.iso20022;
+
+import com.prowidesoftware.swift.model.mx.dic.AccountIdentification4Choice;
+import com.prowidesoftware.swift.model.mx.dic.CashAccount24;
+
+public class AccountBuilder {
+
+    public static CashAccount24 buildDebtorAccount(String debtorAccount) {
+        CashAccount24 debtorCashAccount = new CashAccount24();
+        debtorCashAccount.setId(new AccountIdentification4Choice().setIBAN(debtorAccount));
+        return debtorCashAccount;
+    }
+
+    public static CashAccount24 buildCreditorAccount(String creditorAccount) {
+        CashAccount24 creditorCashAccount = new CashAccount24();
+        creditorCashAccount.setId(new AccountIdentification4Choice().setIBAN(creditorAccount));
+        return creditorCashAccount;
+    }
+}
