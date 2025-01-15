@@ -1,0 +1,53 @@
+package com.yourcompany.iso20022;
+
+import com.prowidesoftware.swift.model.mx.*;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Map;
+
+public abstract class GenericPacsBuilderWithReflection<T extends MxSwiftMessage> {
+
+    public T buildFromMap(Map<String, String> parameters) {
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            try {
+                Method setter = findSetter(key);
+                if (setter != null) {
+                    Class<?> parameterType = setter.getParameterTypes()[0];
+                    Object convertedValue = convertValue(value, parameterType);
+                    setter.invoke(this, convertedValue);
+                }
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Error setting parameter: " + key, e);
+            }
+        }
+        return build();
+    }
+
+    private Method findSetter(String fieldName) {
+        String setterName = "set" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
+        for (Method method : this.getClass().getMethods()) {
+            if (method.getName().equals(setterName) && method.getParameterCount() == 1) {
+                return method;
+            }
+        }
+        return null;
+    }
+
+    private Object convertValue(String value, Class<?> targetType) {
+        if (targetType == String.class) {
+            return value;
+        } else if (targetType == BigDecimal.class) {
+            return new BigDecimal(value);
+        } else if (targetType == Date.class) {
+            return new Date(Long.parseLong(value));
+        } else {
+            throw new IllegalArgumentException("Unsupported parameter type: " + targetType);
+        }
+    }
+
+    public abstract T build();
+}
