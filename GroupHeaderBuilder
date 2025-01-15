@@ -1,0 +1,14 @@
+package com.yourcompany.iso20022;
+
+import com.prowidesoftware.swift.model.mx.dic.GroupHeader93;
+import java.util.Date;
+
+public class GroupHeaderBuilder {
+
+    public static GroupHeader93 buildGroupHeader(String msgId, Date creationDateTime) {
+        GroupHeader93 grpHdr = new GroupHeader93();
+        grpHdr.setMsgId(msgId);
+        grpHdr.setCreDtTm(creationDateTime);
+        return grpHdr;
+    }
+}
